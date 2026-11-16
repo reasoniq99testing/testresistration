@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><base target="_top"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--navy:#101b35;--gold:#d5ad58;--ink:#17233c;--muted:#69758b;--line:#e4e8ef}
+*{box-sizing:border-box}body{margin:0;padding:16px;background:#f5f7fb;color:var(--ink);font-family:Arial, sans-serif}
+.wrap{max-width:760px;margin:auto}.panel{background:#fff;border:1px solid #e8ebf1;border-radius:20px;overflow:hidden;box-shadow:0 14px 38px #101b3517}
+.hero{padding:25px;color:white;background:linear-gradient(130deg,#101b35,#1d3158);border-bottom:4px solid var(--gold)}
+.brand{color:#f0cf83;font-size:12px;font-weight:800;letter-spacing:2px}h1{font-size:26px;margin:10px 0 7px}.sub{color:#d5ddec;font-size:14px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:15px 20px;background:#fbfcfe;border-bottom:1px solid var(--line)}
+.stat{text-align:center;padding:11px 4px;border:1px solid var(--line);border-radius:12px}.stat strong{display:block;font-size:22px;color:var(--navy)}.stat span{font-size:10px;color:var(--muted);font-weight:bold;text-transform:uppercase}
+.progress{height:7px;background:#e9edf4;margin:0 20px 4px;border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#b98d39,#e7ca83)}
+form{padding:22px 25px 25px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{min-width:0}.full{grid-column:1/-1}
+label{display:block;margin-bottom:7px;font-size:13px;font-weight:700;color:#293650}input,select{width:100%;min-height:45px;border:1px solid #d9dfeb;border-radius:10px;padding:10px 12px;font-size:14px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid #d5ad5860;border-color:#b98d39}.consent{display:flex;gap:9px;align-items:flex-start;margin:19px 0 15px;font-size:12px;line-height:1.55;color:#4d5a70}.consent input{width:17px;min-height:17px;margin-top:2px;flex:0 0 auto}a{color:#9a7128;font-weight:bold}
+button{width:100%;min-height:49px;border:0;border-radius:11px;background:linear-gradient(100deg,#c49a48,#e0bf73);color:#17233c;font-size:15px;font-weight:800;cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}
+.message{display:none;margin-top:13px;padding:13px;border-radius:10px;font-size:13px;line-height:1.5}.success{display:block;background:#eaf7ef;color:#176238}.error{display:block;background:#fff0ef;color:#9c2924}.note{text-align:center;color:var(--muted);font-size:11px;line-height:1.5;margin:13px 0 0}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+@media(max-width:560px){body{padding:8px}.hero{padding:21px 18px}h1{font-size:23px}form{padding:18px}.grid{grid-template-columns:1fr;gap:12px}.full{grid-column:auto}.stats{gap:5px;padding:11px}.stat strong{font-size:19px}.stat span{font-size:9px}}
+</style></head><body><div class="wrap"><div class="panel">
+<header class="hero"><div class="brand">REASONIQ99</div><h1>Founding Batch Registration</h1><div class="sub">Join the first 999 learners building stronger reasoning and quantitative aptitude skills.</div></header>
+<section class="stats" aria-live="polite"><div class="stat"><strong id="registered">—</strong><span>Registered</span></div><div class="stat"><strong id="remaining">—</strong><span>Seats left</span></div><div class="stat"><strong>999</strong><span>Total seats</span></div></section>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<form id="form"><div class="grid">
+<div class="field full"><label for="fullName">Full Name *</label><input id="fullName" maxlength="100" autocomplete="name" required placeholder="Enter your full name"></div>
+<div class="field"><label for="mobile">Mobile Number *</label><input id="mobile" inputmode="numeric" autocomplete="tel" maxlength="14" required placeholder="10-digit mobile number"></div>
+<div class="field"><label for="email">Email Address</label><input id="email" type="email" maxlength="120" autocomplete="email" placeholder="name@example.com"></div>
+<div class="field"><label for="state">State *</label><input id="state" maxlength="80" required placeholder="Enter your state"></div>
+<div class="field"><label for="category">Exam Category *</label><select id="category" required><option value="">Select exam category</option><option>UPSC &amp; State PSC</option><option>SSC</option><option>Banking</option><option>Railways</option><option>Defence</option><option>Other Competitive Exams</option></select></div>
+</div>
+<div class="hp"><label for="website">Leave empty</label><input id="website" tabindex="-1" autocomplete="off"></div>
+<label class="consent"><input type="checkbox" id="consent" required><span>I have read and agree to the <a href="https://reasoniq99.github.io/terms/" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="https://reasoniq99.github.io/ReasonIQ99_Privacy/" target="_blank" rel="noopener">Privacy Policy</a> of REASONIQ99. <b>YES. I agree ✓</b></span></label>
+<button id="submit" type="submit">Submit Registration</button><div id="msg" class="message" role="status" aria-live="polite"></div>
+<p class="note">One registration per mobile number. Registration closes automatically when all 999 seats are filled.</p></form>
+</div></div>
+<script>
+const form=document.getElementById("form"),btn=document.getElementById("submit"),msg=document.getElementById("msg");
+function message(t,c){msg.textContent=t;msg.className="message "+c}
+function stats(s){document.getElementById("registered").textContent=s.registered;document.getElementById("remaining").textContent=s.remaining;document.getElementById("bar").style.width=Math.min(100,s.registered/s.capacity*100)+"%";if(s.isFull){btn.disabled=true;btn.textContent="Registration Closed — 999 Seats Filled"}}
+function refresh(){google.script.run.withSuccessHandler(stats).withFailureHandler(()=>{document.getElementById("registered").textContent="—";document.getElementById("remaining").textContent="—"}).getRegistrationStats()}
+form.addEventListener("submit",e=>{e.preventDefault();if(!document.getElementById("consent").checked)return;btn.disabled=true;btn.textContent="Submitting…";msg.className="message";
+const data={fullName:document.getElementById("fullName").value,mobile:document.getElementById("mobile").value,email:document.getElementById("email").value,state:document.getElementById("state").value,category:document.getElementById("category").value,consent:"YES",website:document.getElementById("website").value};
+google.script.run.withSuccessHandler(r=>{if(r&&r.success){message("Registration successful! Your reference ID is "+r.reference+". Please save it.","success");form.reset();refresh()}else{message(r&&r.message?r.message:"Registration could not be completed.","error");if(r&&r.full)refresh()}btn.disabled=false;btn.textContent="Submit Registration"}).withFailureHandler(()=>{message("Connection error. Please try again.","error");btn.disabled=false;btn.textContent="Submit Registration"}).submitRegistration(data)});
+refresh();setInterval(refresh,30000);
+</script></body></html>

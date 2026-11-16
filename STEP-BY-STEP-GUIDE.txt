@@ -1,0 +1,52 @@
+REASONIQ99 FOUNDING BATCH — SETUP GUIDE
+
+1. CREATE THE SCRIPT
+- Open https://script.google.com/ and sign in.
+- Click New project; name it ReasonIQ99 Founding Batch.
+- In Code.gs, remove sample code and paste the full Code.gs from this package.
+- Click + > HTML. Name the file exactly Index. Paste Index.html.
+- Save.
+
+2. CREATE THE GOOGLE SHEET
+- In the Apps Script function dropdown, select setupReasonIQ99.
+- Click Run and authorize the requested Google permissions.
+- In the execution log, copy/open the logged Google Sheet URL.
+- Keep that spreadsheet private. Registrations will appear in the Registrations tab.
+
+3. DEPLOY
+- Click Deploy > New deployment > gear icon > Web app.
+- Execute as: Me.
+- Who has access: Anyone (if available for your Google account).
+- Click Deploy, authorize if prompted, and copy the Web app URL ending /exec.
+
+4. EMBED INTO YOUR EXISTING GITHUB PAGES WEBSITE
+Add this where you want the registration form to appear. Replace the placeholder with your /exec URL:
+
+<iframe
+  src="YOUR_WEB_APP_EXEC_URL"
+  title="ReasonIQ99 Founding Batch Registration"
+  width="100%"
+  height="1050"
+  style="border:0;width:100%;max-width:100%;"
+  loading="lazy">
+</iframe>
+
+5. TEST BEFORE ANNOUNCING
+- Submit one test registration.
+- Check that the row appears in Google Sheets and the count increases.
+- Try the same mobile number again; it should be rejected.
+- Open the page on another device/browser and confirm the count is visible there too.
+
+HOW TO MODIFY
+- Seat limit: change CONFIG.CAPACITY in Code.gs (leave 999 for this batch).
+- Exam categories: change CONFIG.CATEGORIES in Code.gs AND the option list in Index.html. Keep wording identical.
+- Heading/description: edit the hero section in Index.html.
+- Colours: edit --navy, --gold, --ink and --muted in the CSS at the top.
+- Policy links: search for the Terms and Privacy URLs in Index.html.
+- To add/remove a field, update the HTML form, submitRegistration() validation, sheet headers, and appendRow() in Code.gs.
+
+IMPORTANT
+- The Google Sheet is private; do not publish or expose its contents.
+- This form stores submitted details in your Google account's Sheet.
+- If you change code after deployment, use Deploy > Manage deployments > Edit (pencil) > New version > Deploy. Otherwise the live /exec deployment may keep the older version.
+- This is a registration system, not identity verification or payment processing. Apps Script quotas and Google account policies apply.
